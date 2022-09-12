@@ -28,17 +28,17 @@ int _LED_DEFAULT_MODE[] =
 
 enum LED_FSM
 {
-    LED_STATE_NOT_INITIALIZED,
+    LED_STATE_NOT_INITIALIZED = 0,
     LED_STATE_BUSY,
-    LED_STATE_CHANGE,
+    LED_STATE_UPDATE,
 };
 
 unsigned int _LED_DEFAULT_MODE[] =
     {0, 0};
 
 LED_FSM _led_state = LED_STATE_NOT_INITIALIZED;
-unsigned int _current_timing = 0;
-Ticker _ticker;
+unsigned int _led_current_timing = 0;
+Ticker _led_ticker;
 unsigned int *_led_current_mode = NULL;
 unsigned int _led_current_mode_size = 0;
 
@@ -51,7 +51,7 @@ void _LED_Set_blink_mode(unsigned int *mode, unsigned int mode_size)
     }
     if (_led_current_mode == mode)
         return;
-    _current_timing = 0;
+    _led_current_timing = 0;
     _led_current_mode = mode;
     _led_current_mode_size = mode_size / 4; // int занимает 4 байта
     digitalWrite(LED_PIN, 0);
@@ -64,13 +64,13 @@ void LED_Setup()
         return;
     }
     pinMode(LED_PIN, OUTPUT);
-    _led_state = LED_STATE_CHANGE;
+    _led_state = LED_STATE_UPDATE;
     LED_Set_blink_mode(_LED_DEFAULT_MODE);
 }
 
-void LED_Ticker_Estimated()
+void LED_led_Ticker_Estimated()
 {
-    _led_state = LED_STATE_CHANGE;
+    _led_state = LED_STATE_UPDATE;
 }
 
 void LED_Quant()
@@ -81,30 +81,30 @@ void LED_Quant()
     case LED_STATE_BUSY:
         break;
 
-    case LED_STATE_CHANGE:
+    case LED_STATE_UPDATE:
         if (_led_current_mode == NULL || _led_current_mode_size == 0)
             _led_state = LED_STATE_BUSY;
 
-        if (_current_timing == _led_current_mode_size)
+        if (_led_current_timing == _led_current_mode_size)
         {
-            _current_timing = 0;
+            _led_current_timing = 0;
         }
 
-        digitalWrite(LED_PIN, (_current_timing % 2) == 1);
-        _ticker.attach(_led_current_mode[_current_timing] / 1000.0f, &LED_Ticker_Estimated);
+        digitalWrite(LED_PIN, (_led_current_timing % 2) == 1);
+        _led_ticker.attach(_led_current_mode[_led_current_timing] / 1000.0f, &LED_led_Ticker_Estimated);
 
         // Serial.print("time\t");
-        // Serial.print(_led_current_mode[_current_timing] / 1000.0f);
+        // Serial.print(_led_current_mode[_led_current_timing] / 1000.0f);
         // Serial.print("\tstate\t");
-        // Serial.print((_current_timing % 2) == 0);
-        // Serial.print("\t_current_timing\t");
-        // Serial.print(_current_timing);
+        // Serial.print((_led_current_timing % 2) == 0);
+        // Serial.print("\t_led_current_timing\t");
+        // Serial.print(_led_current_timing);
         // Serial.print("\tsize of mode\t");
         // Serial.println(_led_current_mode_size);
 
-        if (_current_timing < _led_current_mode_size)
+        if (_led_current_timing < _led_current_mode_size)
         {
-            _current_timing++;
+            _led_current_timing++;
         }
 
         _led_state = LED_STATE_BUSY;
