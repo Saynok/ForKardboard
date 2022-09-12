@@ -14,15 +14,20 @@ int led_our_mode[] =
 
 void setup()
 {
-  Serial.begin(9600);
+  delay(100);
+  Serial.begin(115200);
+  Serial.println("\n\nПоследовательный терминал инициализирован");
 
   Buttons_Setup();
 
+  LED_Set_blink_mode(led_our_mode);
   LED_Setup();
   LED_Set_blink_mode(led_our_mode);
 
+  WIFI_Start_time_from_server();
   WIFI_Setup();
   WIFI_Start_time_from_server();
+  Serial.println("Настройка завершена, приступаю к выполнению бизнес-логики");
 }
 
 void loop()

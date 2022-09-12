@@ -21,11 +21,11 @@ bool WIFI_Setup()
 
     */
 
-    wifi_connected = true;
+    wifi_connected = false;
 
     if (!wifi_connected)
     {
-        Serial.println("Не получается подключиться к локальной WiFi сети, \nпроверьте пароль, логин и вообще включен ли маршрутизатор");
+        Serial.println("ERROR\nНе получается подключиться к локальной WiFi сети, \nпроверьте пароль, логин и вообще включен ли маршрутизатор\n");
     }
     return wifi_connected;
 }
@@ -39,7 +39,7 @@ bool WIFI_Start_time_from_server()
 
     if (!wifi_connected)
     {
-        Serial.println("ERROR, Нет подключения к локальной WiFi сети");
+        Serial.println("\nERROR\nНет подключения к локальной WiFi сети\n");
         return false;
     }
 
@@ -49,11 +49,11 @@ bool WIFI_Start_time_from_server()
 
     */
 
-    time_server_connected = true;
+    time_server_connected = false;
 
     if (!time_server_connected)
     {
-        Serial.println("Невозможно подключиться к серверу, проверьте роутер или киньте денег провайдеру");
+        Serial.println("\nERROR\nНевозможно подключиться к серверу, проверьте роутер или киньте денег провайдеру\n");
         return false;
     }
 

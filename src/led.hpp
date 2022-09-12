@@ -33,7 +33,7 @@ void LED_Set_blink_mode(int *mode)
 {
     if (!led_initialized)
     {
-        Serial.println("ERROR, Светодиоды не инициализированы!");
+        Serial.println("\nERROR\nСветодиоды не инициализированы!\n");
         return;
     }
     _led_current_mode = mode;
@@ -44,6 +44,7 @@ void LED_Setup()
     {
         return;
     }
+    led_initialized = true;
 
     pinMode(LED_PIN, OUTPUT);
     LED_Set_blink_mode(_led_default_mode);

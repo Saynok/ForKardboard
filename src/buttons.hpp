@@ -15,11 +15,12 @@ bool buttons_initialized = false;
 void Buttons_Setup()
 {
     pinMode(BUTTONS_USER, INPUT);
+    buttons_initialized = true;
 }
 
 void Buttons_Quant()
 {
-    if (buttons_initialized)
+    if (!buttons_initialized)
     {
         return;
     }
@@ -27,7 +28,7 @@ void Buttons_Quant()
 
     TODO: Автомат считывания долгого и короткого нажатия
     digitalRead(BUTTONS_USER) == BUTTONS_USER_ACTIVE_STATE;
-    
+
     */
 }
 
