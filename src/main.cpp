@@ -32,7 +32,6 @@ void setup()
 void loop()
 {
   LED_Quant();
-  Buttons_Quant();
   WIFI_Time_Quant();
 
   // здесь стартует бизнес логика
@@ -40,12 +39,12 @@ void loop()
   // ТЗ: кнопка встроенная реализовать короткое и длительное нажатие с выводом в порт - "short" и "long"
   if (Buttons_User_Short())
   {
-    Serial.println("Short");
+    Serial.println("short");
   }
 
   if (Buttons_User_Long())
   {
-    Serial.println("Long");
+    Serial.println("long");
   }
 
   // ТЗ: "подключиться по wifi, получить время, выводить его в консоль раз в 3 сек"
