@@ -33,9 +33,7 @@ void setup()
 Time ntp_time;
 void loop()
 {
-  LED_Quant();
   // здесь стартует бизнес логика
-
   // ТЗ: кнопка встроенная реализовать короткое и длительное нажатие с выводом в порт - "short" и "long"
   if (Buttons_User_Short())
   {
