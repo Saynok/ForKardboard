@@ -41,6 +41,7 @@ unsigned int _led_current_timing = 0;
 Ticker _led_ticker;
 unsigned int *_led_current_mode = NULL;
 unsigned int _led_current_mode_size = 0;
+void LED_Quant();
 
 void _LED_Set_blink_mode(unsigned int *mode, unsigned int mode_size)
 {
@@ -55,6 +56,7 @@ void _LED_Set_blink_mode(unsigned int *mode, unsigned int mode_size)
     _led_current_mode = mode;
     _led_current_mode_size = mode_size / 4; // int занимает 4 байта
     digitalWrite(LED_PIN, 0);
+    LED_Quant();
 }
 
 void LED_Setup()
@@ -71,6 +73,7 @@ void LED_Setup()
 void LED_led_Ticker_Estimated()
 {
     _led_state = LED_STATE_UPDATE;
+    LED_Quant();
 }
 
 void LED_Quant()
