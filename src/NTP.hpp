@@ -9,14 +9,14 @@ enum NTP_Settings
     NTP_PACKET_SIZE = 48,
     NTP_DEFAULT_LOCAL_PORT = 1337,
     NTP_TIMEOUT = 1000,
+    NTP_TIMEZONE = 3, // +3, Москва
 };
-const char *NTP_poolServerName = "pool.ntp.org"; // Default time server
-const int NTP_TIMEZONE = 3;                      // +3, Москва
+const char *NTP_poolServerName = "pool.ntp.org";
 
 WiFiUDP NTP_udp;
 byte NTP_packetBuffer[NTP_PACKET_SIZE];
-unsigned long NTP_lastUpdate = 0;  // In ms
-unsigned long NTP_currentEpoc = 0; // In s
+unsigned long NTP_lastUpdate = 0;  
+unsigned long NTP_currentEpoc = 0; 
 long NTP_timeOffset;
 
 void NTP_Connect()
@@ -74,5 +74,7 @@ void NTP_Print_Time()
     unsigned long minutes = (rawTime % 3600) / 60;
     unsigned long seconds = rawTime % 60;
 
-    Serial.println((hours < 10 ? "0" + String(hours) : String(hours)) + ":" + (minutes < 10 ? "0" + String(minutes) : String(minutes)) + ":" + (seconds < 10 ? "0" + String(seconds) : String(seconds)));
+    Serial.println((hours < 10 ? "0" + String(hours) : String(hours)) 
+    + ":" + (minutes < 10 ? "0" + String(minutes) : String(minutes))
+    + ":" + (seconds < 10 ? "0" + String(seconds) : String(seconds)));
 }
