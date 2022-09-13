@@ -15,7 +15,7 @@ bool WIFI_Start()
     WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
     long timeout = millis();
-    while (WiFi.status() != WL_DISCONNECTED)
+    while (WiFi.status() == WL_DISCONNECTED)
     {
         if (millis() - timeout > 10 * 1000) // таймаут 10 секунд
         {
