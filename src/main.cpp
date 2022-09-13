@@ -2,6 +2,8 @@
 #include "led.hpp"
 #include "buttons.hpp"
 #include "wifi.hpp"
+#include "NTP.hpp"
+#include "tools.hpp"
 
 // первое число в строке - время горения в миллисекундах, второе - время отключенного состояния светодиода
 // ТЗ: "встроенный светодиод мигает 3 раза 20мс с интервалом 300мс, 2 раза 500/500 и далее по кругу"
@@ -14,7 +16,6 @@ unsigned int LED_OUR_MODE[] =
 
 void setup()
 {
-  delay(100);
   Serial.begin(115200);
   Serial.println("\n\nПоследовательный терминал инициализирован");
 
@@ -23,17 +24,16 @@ void setup()
   LED_Setup();
   LED_Set_blink_mode(LED_OUR_MODE);
 
-  WIFI_Start_time_from_server();
-  WIFI_Setup();
-  WIFI_Start_time_from_server();
+  WIFI_Start();
+  NTP_Connect();
+
   Serial.println("Настройка завершена, приступаю к выполнению бизнес-логики");
 }
 
+Time ntp_time;
 void loop()
 {
   LED_Quant();
-  WIFI_Time_Quant();
-
   // здесь стартует бизнес логика
 
   // ТЗ: кнопка встроенная реализовать короткое и длительное нажатие с выводом в порт - "short" и "long"
@@ -48,8 +48,8 @@ void loop()
   }
 
   // ТЗ: "подключиться по wifi, получить время, выводить его в консоль раз в 3 сек"
-  if (WIFI_Time_Updated())
+  if (ntp_time.Estimated(3000) && NTP_UpdateTime())
   {
-    WIFI_Print_current_time();
+    NTP_Print_Time();
   }
 }
